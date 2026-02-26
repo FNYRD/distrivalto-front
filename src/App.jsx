@@ -3,6 +3,7 @@ import styles from './App.module.css'
 import Sidebar from './components/Sidebar'
 import ChatView from './components/ChatView'
 import AuthModal from './components/AuthModal'
+import AdminPanel from './components/AdminPanel'
 
 const BOT_RESPONSES = [
   'Gracias por tu consulta. Un agente de Distrivalto te atenderá pronto.',
@@ -52,6 +53,7 @@ export default function App() {
   const [selectedType, setSelectedType] = useState('consulta')
   const [authOpen, setAuthOpen] = useState(false)
   const [authMode, setAuthMode] = useState('login')
+  const [user, setUser] = useState(null)
 
   const activeChat = chats.find(c => c.id === activeChatId) ?? null
 
@@ -74,6 +76,15 @@ export default function App() {
 
   const handleCloseAuth = useCallback(() => {
     setAuthOpen(false)
+  }, [])
+
+  const handleLogin = useCallback((userData) => {
+    setUser(userData)
+    setAuthOpen(false)
+  }, [])
+
+  const handleLogout = useCallback(() => {
+    setUser(null)
   }, [])
 
   const handleTypeChange = useCallback((type) => {
@@ -105,6 +116,10 @@ export default function App() {
     }
   }, [activeChatId, selectedType, scheduleBotResponse])
 
+  if (user?.isAdmin) {
+    return <AdminPanel user={user} onLogout={handleLogout} />
+  }
+
   return (
     <div className={styles.app}>
       <Sidebar
@@ -127,6 +142,7 @@ export default function App() {
         isOpen={authOpen}
         initialMode={authMode}
         onClose={handleCloseAuth}
+        onLogin={handleLogin}
       />
     </div>
   )

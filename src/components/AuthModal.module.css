@@ -176,6 +176,16 @@
   font-weight: 400;
 }
 
+/* ── Error message ── */
+
+.errorMsg {
+  font-size: 13px;
+  color: #c0392b;
+  background-color: rgba(192, 57, 43, 0.08);
+  border-radius: 8px;
+  padding: 8px 12px;
+}
+
 /* ── Submit button ── */
 
 .submitBtn {

@@ -72,21 +72,30 @@ function Divider() {
 
 /* ── Login form ── */
 
-function LoginForm() {
+function LoginForm({ onLogin }) {
   const [form, setForm] = useState({ email: '', password: '' })
+  const [error, setError] = useState('')
   const set = (k) => (e) => setForm(prev => ({ ...prev, [k]: e.target.value }))
 
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    if (form.email === 'admin' && form.password === 'admin') {
+      onLogin({ name: 'Admin', isAdmin: true, email: 'admin' })
+    } else {
+      setError('Credenciales incorrectas')
+    }
+  }
+
   return (
-    <form className={styles.form} onSubmit={e => e.preventDefault()}>
+    <form className={styles.form} onSubmit={handleSubmit}>
       <div className={styles.field}>
         <label className={styles.label}>Correo electrónico</label>
         <input
           className={styles.input}
-          type="email"
-          placeholder="tu@correo.com"
+          type="text"
+          placeholder="usuario o correo"
           value={form.email}
           onChange={set('email')}
-          autoComplete="email"
         />
       </div>
       <div className={styles.field}>
@@ -100,6 +109,7 @@ function LoginForm() {
           autoComplete="current-password"
         />
       </div>
+      {error && <p className={styles.errorMsg}>{error}</p>}
       <button className={styles.submitBtn} type="submit">Iniciar sesión</button>
 
       <Divider />
@@ -201,7 +211,7 @@ function RegisterForm() {
 
 /* ── Modal ── */
 
-export default function AuthModal({ isOpen, initialMode = 'login', onClose }) {
+export default function AuthModal({ isOpen, initialMode = 'login', onClose, onLogin }) {
   const [mode, setMode] = useState(initialMode)
 
   useEffect(() => {
@@ -245,7 +255,7 @@ export default function AuthModal({ isOpen, initialMode = 'login', onClose }) {
         </div>
 
         <div className={styles.body}>
-          {mode === 'login' ? <LoginForm /> : <RegisterForm />}
+          {mode === 'login' ? <LoginForm onLogin={onLogin} /> : <RegisterForm />}
         </div>
 
       </div>
