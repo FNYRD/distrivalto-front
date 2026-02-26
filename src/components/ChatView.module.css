@@ -1,0 +1,141 @@
+.container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+  background-color: var(--color-bg);
+}
+
+/* ── Topbar (always visible) ── */
+
+.topbar {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  padding: 10px 16px;
+  background-color: var(--color-white);
+  border-bottom: 1px solid var(--color-gray-200);
+  flex-shrink: 0;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+}
+
+.menuBtn {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  color: var(--color-gray-600);
+  transition: background-color 0.15s ease, color 0.15s ease;
+  flex-shrink: 0;
+}
+
+.menuBtn:hover {
+  background-color: var(--color-gray-100);
+  color: var(--color-gray-800);
+}
+
+.authBtns {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  justify-self: end;
+}
+
+.loginTopBtn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 13px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-gray-600);
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.loginTopBtn:hover {
+  background-color: var(--color-gray-100);
+  color: var(--color-gray-800);
+}
+
+.registerBtn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 13px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 600;
+  background-color: var(--color-blue);
+  color: var(--color-navy);
+  transition: background-color 0.15s ease;
+}
+
+.registerBtn:hover {
+  background-color: var(--color-blue-dark);
+}
+
+/* ── Type selector (pill tabs) ── */
+
+.typeSelector {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  background-color: var(--color-gray-100);
+  border: 1px solid var(--color-gray-200);
+  border-radius: 12px;
+  padding: 3px;
+}
+
+.typeBtn {
+  padding: 6px 20px;
+  border-radius: 9px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-gray-600);
+  transition: background-color 0.15s ease, color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.typeBtn:hover:not(.typeBtnActive) {
+  color: var(--color-gray-800);
+  background-color: rgba(0, 0, 0, 0.04);
+}
+
+.typeBtnActive {
+  background-color: var(--color-white);
+  color: var(--color-navy);
+  font-weight: 600;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* ── Active chat header ── */
+
+.header {
+  padding: 14px 40px;
+  background-color: var(--color-white);
+  border-bottom: 1px solid var(--color-gray-200);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-gray-600);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex-shrink: 0;
+}
+
+/* ── Input area ── */
+
+.inputArea {
+  padding: 16px 40px 24px;
+  background-color: var(--color-bg);
+}
+
+.hint {
+  text-align: center;
+  font-size: 11px;
+  color: var(--color-gray-400);
+  margin-top: 8px;
+}

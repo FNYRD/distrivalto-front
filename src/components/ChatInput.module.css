@@ -1,0 +1,94 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--color-white);
+  border: 1px solid var(--color-gray-200);
+  border-radius: 20px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.07);
+  overflow: hidden;
+}
+
+/* ── Top: writing area ── */
+
+.inputRow {
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+  padding: 16px 16px 12px;
+}
+
+.textarea {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-size: 26px;
+  line-height: 1.5;
+  color: var(--color-gray-800);
+  background: transparent;
+  min-height: 56px;
+  max-height: 220px;
+  overflow-y: auto;
+}
+
+.textarea::placeholder {
+  color: var(--color-gray-400);
+}
+
+.sendBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  background-color: var(--color-blue);
+  color: var(--color-navy);
+  flex-shrink: 0;
+  transition: background-color 0.15s ease;
+}
+
+.sendBtn:hover:not(:disabled) {
+  background-color: var(--color-blue-dark);
+}
+
+.sendBtn:disabled {
+  background-color: var(--color-gray-100);
+  color: var(--color-gray-400);
+  cursor: not-allowed;
+}
+
+.sendIcon {
+  width: 18px;
+  height: 18px;
+  fill: currentColor;
+}
+
+/* ── Bottom: attachment row ── */
+
+.attachRow {
+  display: flex;
+  align-items: center;
+  padding: 8px 16px 12px;
+  border-top: 1px solid var(--color-gray-100);
+}
+
+.attachBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--color-gray-400);
+  font-size: 13px;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 8px;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.attachBtn:hover {
+  background-color: var(--color-gray-100);
+  color: var(--color-gray-600);
+}
+
+.fileInput {
+  display: none;
+}
