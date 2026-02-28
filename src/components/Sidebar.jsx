@@ -23,10 +23,10 @@ export default function Sidebar({ isOpen, chats, activeChatId, onNewChat, onSele
   return (
     <aside className={`${styles.sidebar} ${isOpen ? '' : styles.closed}`}>
       <div className={styles.header}>
-        <div className={styles.logo}>
+        <a href="https://www.distrivalto.com/" target="_blank" rel="noopener noreferrer" className={styles.logo}>
           <img src={logo} alt="Distrivalto" className={styles.logoMark} />
           <span className={styles.logoText}>Distrivalto</span>
-        </div>
+        </a>
         <button className={styles.newChatBtn} onClick={onNewChat}>
           <span>+</span>
           <span>Nuevo chat</span>

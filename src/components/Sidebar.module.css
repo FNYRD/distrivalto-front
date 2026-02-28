@@ -50,6 +50,14 @@
   gap: 0;
 }
 
+.sidebar.closed .userMenu {
+  position: fixed;
+  left: 56px;
+  bottom: 20px;
+  right: auto;
+  min-width: 180px;
+}
+
 .header {
   padding: 20px 16px 16px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
@@ -59,6 +67,7 @@
   display: flex;
   align-items: center;
   gap: 10px;
+  text-decoration: none;
 }
 
 .logoMark {
