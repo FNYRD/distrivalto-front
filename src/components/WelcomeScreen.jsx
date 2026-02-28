@@ -66,7 +66,7 @@ export default function WelcomeScreen({ onSend }) {
       </p>
 
       <div className={styles.inputWrapper}>
-        <ChatInput onSend={onSend} placeholder="¿En qué podemos ayudarte?" centered />
+        <ChatInput onSend={onSend} placeholder="No olvides seleccionar el motivo de tu consulta ↑" centered />
       </div>
     </div>
   )

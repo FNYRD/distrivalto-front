@@ -74,6 +74,11 @@ export default function App() {
     setAuthOpen(true)
   }, [])
 
+  const handleOpenChangeCreds = useCallback(() => {
+    setAuthMode('change-creds')
+    setAuthOpen(true)
+  }, [])
+
   const handleCloseAuth = useCallback(() => {
     setAuthOpen(false)
   }, [])
@@ -128,6 +133,9 @@ export default function App() {
         activeChatId={activeChatId}
         onNewChat={handleNewChat}
         onSelectChat={handleSelectChat}
+        user={user}
+        onChangeCreds={handleOpenChangeCreds}
+        onLogout={handleLogout}
       />
       <ChatView
         activeChat={activeChat}
@@ -137,6 +145,7 @@ export default function App() {
         selectedType={selectedType}
         onTypeChange={handleTypeChange}
         onOpenAuth={handleOpenAuth}
+        user={user}
       />
       <AuthModal
         isOpen={authOpen}

@@ -141,6 +141,51 @@
   letter-spacing: 0.02em;
 }
 
+/* ── Modal title (change-creds mode) ── */
+
+.modalTitle {
+  flex: 1;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--color-navy);
+  padding: 4px 0 4px 4px;
+}
+
+/* ── Confirm hint ── */
+
+.confirmHint {
+  font-size: 13px;
+  color: var(--color-gray-600);
+  line-height: 1.5;
+}
+
+/* ── Password wrapper with eye icon ── */
+
+.passwordWrapper {
+  position: relative;
+}
+
+.passwordWrapper .input {
+  padding-right: 42px;
+}
+
+.eyeBtn {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-gray-400);
+  transition: color 0.15s ease;
+  padding: 2px;
+}
+
+.eyeBtn:hover {
+  color: var(--color-gray-800);
+}
+
 .input {
   padding: 10px 13px;
   border: 1px solid var(--color-gray-200);

@@ -140,3 +140,153 @@
   background: var(--color-gray-200);
   border-radius: 4px;
 }
+
+/* ── Admin user button ── */
+
+.adminUserBtn {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-navy);
+  padding: 6px 14px;
+  border-radius: 10px;
+  border: 1px solid var(--color-gray-200);
+  background-color: transparent;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.adminUserBtn:hover {
+  background-color: var(--color-gray-100);
+  border-color: var(--color-gray-400);
+}
+
+/* ── Change-creds modal ── */
+
+.modalBackdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+
+.modal {
+  background: var(--color-white);
+  border-radius: 18px;
+  width: 100%;
+  max-width: 380px;
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.18);
+  overflow: hidden;
+}
+
+.modalHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 20px 14px;
+  border-bottom: 1px solid var(--color-gray-200);
+}
+
+.modalTitle {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--color-navy);
+}
+
+.closeBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  color: var(--color-gray-400);
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.closeBtn:hover {
+  background-color: var(--color-gray-100);
+  color: var(--color-gray-800);
+}
+
+.modalForm {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 20px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.fieldLabel {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-gray-600);
+  letter-spacing: 0.02em;
+}
+
+.fieldInput {
+  padding: 10px 13px;
+  border: 1px solid var(--color-gray-200);
+  border-radius: 10px;
+  font-size: 14px;
+  font-family: inherit;
+  color: var(--color-gray-800);
+  background-color: var(--color-bg);
+  outline: none;
+  width: 100%;
+  transition: border-color 0.15s ease;
+}
+
+.fieldInput:focus {
+  border-color: var(--color-blue);
+}
+
+.pwWrapper {
+  position: relative;
+}
+
+.pwWrapper .fieldInput {
+  padding-right: 42px;
+}
+
+.eyeBtn {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-gray-400);
+  transition: color 0.15s ease;
+  padding: 2px;
+}
+
+.eyeBtn:hover {
+  color: var(--color-gray-800);
+}
+
+.errorMsg {
+  font-size: 12px;
+  color: #d9534f;
+}
+
+.submitBtn {
+  padding: 11px;
+  border-radius: 12px;
+  background-color: var(--color-navy);
+  color: var(--color-white);
+  font-size: 14px;
+  font-weight: 600;
+  transition: background-color 0.15s ease;
+}
+
+.submitBtn:hover {
+  background-color: #1e2d3e;
+}

@@ -3,6 +3,25 @@ import styles from './AuthModal.module.css'
 
 /* ── Icons ── */
 
+function EyeIcon() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+      <circle cx="12" cy="12" r="3" />
+    </svg>
+  )
+}
+
+function EyeOffIcon() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94" />
+      <path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19" />
+      <line x1="1" y1="1" x2="23" y2="23" />
+    </svg>
+  )
+}
+
 function GoogleIcon() {
   return (
     <svg width="18" height="18" viewBox="0 0 24 24">
@@ -39,33 +58,42 @@ function CloseIcon() {
   )
 }
 
-/* ── Social buttons shared ── */
+/* ── Shared ── */
 
 function SocialButtons() {
   return (
     <div className={styles.socialRow}>
-      <button className={styles.socialBtn} type="button">
-        <GoogleIcon />
-        <span>Google</span>
-      </button>
-      <button className={styles.socialBtn} type="button">
-        <AppleIcon />
-        <span>Apple</span>
-      </button>
-      <button className={styles.socialBtn} type="button">
-        <PhoneIcon />
-        <span>Teléfono</span>
-      </button>
+      <button className={styles.socialBtn} type="button"><GoogleIcon /><span>Google</span></button>
+      <button className={styles.socialBtn} type="button"><AppleIcon /><span>Apple</span></button>
+      <button className={styles.socialBtn} type="button"><PhoneIcon /><span>Teléfono</span></button>
     </div>
   )
 }
 
-/* ── Divider ── */
-
 function Divider() {
+  return <div className={styles.divider}><span>o continúa con</span></div>
+}
+
+/* ── Reusable password field with eye toggle ── */
+
+function PasswordField({ label, value, onChange, autoComplete }) {
+  const [show, setShow] = useState(false)
   return (
-    <div className={styles.divider}>
-      <span>o continúa con</span>
+    <div className={styles.field}>
+      <label className={styles.label}>{label}</label>
+      <div className={styles.passwordWrapper}>
+        <input
+          className={styles.input}
+          type={show ? 'text' : 'password'}
+          placeholder="••••••••"
+          value={value}
+          onChange={onChange}
+          autoComplete={autoComplete}
+        />
+        <button type="button" className={styles.eyeBtn} onClick={() => setShow(p => !p)} tabIndex={-1}>
+          {show ? <EyeOffIcon /> : <EyeIcon />}
+        </button>
+      </div>
     </div>
   )
 }
@@ -81,6 +109,8 @@ function LoginForm({ onLogin }) {
     e.preventDefault()
     if (form.email === 'admin' && form.password === 'admin') {
       onLogin({ name: 'Admin', isAdmin: true, email: 'admin' })
+    } else if (form.email === 'cliente' && form.password === 'cliente') {
+      onLogin({ name: 'cliente', isClient: true, email: 'cliente' })
     } else {
       setError('Credenciales incorrectas')
     }
@@ -98,113 +128,119 @@ function LoginForm({ onLogin }) {
           onChange={set('email')}
         />
       </div>
-      <div className={styles.field}>
-        <label className={styles.label}>Contraseña</label>
-        <input
-          className={styles.input}
-          type="password"
-          placeholder="••••••••"
-          value={form.password}
-          onChange={set('password')}
-          autoComplete="current-password"
-        />
-      </div>
+      <PasswordField
+        label="Contraseña"
+        value={form.password}
+        onChange={set('password')}
+        autoComplete="current-password"
+      />
       {error && <p className={styles.errorMsg}>{error}</p>}
       <button className={styles.submitBtn} type="submit">Iniciar sesión</button>
-
       <Divider />
       <SocialButtons />
     </form>
   )
 }
 
-/* ── Register form ── */
+/* ── Register / Edit-profile form ── */
 
-function RegisterForm() {
+const CLIENT_DATA = {
+  name: 'Carlos Rodríguez',
+  email: 'carlos.rodriguez@distrivalto.com',
+  age: '32',
+  country: 'Colombia',
+  city: 'Bogotá D.C.',
+}
+
+function RegisterForm({ prefilled = null, onSuccess }) {
   const [form, setForm] = useState({
-    name: '', email: '', password: '', age: '', country: '', city: '',
+    name:     prefilled?.name    ?? '',
+    email:    prefilled?.email   ?? '',
+    password: '',
+    confirm:  '',
+    age:      prefilled?.age     ?? '',
+    country:  prefilled?.country ?? '',
+    city:     prefilled?.city    ?? '',
   })
+  const [error, setError] = useState('')
   const set = (k) => (e) => setForm(prev => ({ ...prev, [k]: e.target.value }))
 
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    if (form.password && form.password !== form.confirm) {
+      setError('Las contraseñas no coinciden')
+      return
+    }
+    setError('')
+    if (onSuccess) onSuccess()
+  }
+
   return (
-    <form className={styles.form} onSubmit={e => e.preventDefault()}>
+    <form className={styles.form} onSubmit={handleSubmit}>
       <div className={styles.field}>
         <label className={styles.label}>Nombre completo</label>
-        <input
-          className={styles.input}
-          type="text"
-          placeholder="Juan Pérez"
-          value={form.name}
-          onChange={set('name')}
-          autoComplete="name"
-        />
+        <input className={styles.input} type="text" placeholder="Juan Pérez"
+          value={form.name} onChange={set('name')} autoComplete="name" />
       </div>
       <div className={styles.field}>
         <label className={styles.label}>Correo electrónico</label>
-        <input
-          className={styles.input}
-          type="email"
-          placeholder="tu@correo.com"
-          value={form.email}
-          onChange={set('email')}
-          autoComplete="email"
-        />
+        <input className={styles.input} type="email" placeholder="tu@correo.com"
+          value={form.email} onChange={set('email')} autoComplete="email" />
       </div>
-      <div className={styles.field}>
-        <label className={styles.label}>Contraseña</label>
-        <input
-          className={styles.input}
-          type="password"
-          placeholder="••••••••"
-          value={form.password}
-          onChange={set('password')}
-          autoComplete="new-password"
-        />
-      </div>
+      <PasswordField label="Contraseña" value={form.password} onChange={set('password')} autoComplete="new-password" />
+      <PasswordField label="Confirmar contraseña" value={form.confirm} onChange={set('confirm')} autoComplete="new-password" />
+      {error && <p className={styles.errorMsg}>{error}</p>}
 
       <p className={styles.optionalHeading}>Información adicional <span>(opcional)</span></p>
-
       <div className={styles.row}>
         <div className={styles.field}>
           <label className={styles.label}>Edad</label>
-          <input
-            className={styles.input}
-            type="number"
-            placeholder="25"
-            min="1"
-            max="120"
-            value={form.age}
-            onChange={set('age')}
-          />
+          <input className={styles.input} type="number" placeholder="25" min="1" max="120"
+            value={form.age} onChange={set('age')} />
         </div>
         <div className={styles.field}>
           <label className={styles.label}>País</label>
-          <input
-            className={styles.input}
-            type="text"
-            placeholder="Colombia"
-            value={form.country}
-            onChange={set('country')}
-            autoComplete="country-name"
-          />
+          <input className={styles.input} type="text" placeholder="Colombia"
+            value={form.country} onChange={set('country')} autoComplete="country-name" />
         </div>
       </div>
       <div className={styles.field}>
         <label className={styles.label}>Ciudad</label>
-        <input
-          className={styles.input}
-          type="text"
-          placeholder="Bogotá"
-          value={form.city}
-          onChange={set('city')}
-          autoComplete="address-level2"
-        />
+        <input className={styles.input} type="text" placeholder="Bogotá"
+          value={form.city} onChange={set('city')} autoComplete="address-level2" />
       </div>
 
-      <button className={styles.submitBtn} type="submit">Crear cuenta</button>
+      <button className={styles.submitBtn} type="submit">
+        {prefilled ? 'Guardar cambios' : 'Crear cuenta'}
+      </button>
+      {!prefilled && <><Divider /><SocialButtons /></>}
+    </form>
+  )
+}
 
-      <Divider />
-      <SocialButtons />
+/* ── Confirm current credentials (step 1 of change-creds) ── */
+
+function ConfirmCredsForm({ onConfirm }) {
+  const [form, setForm] = useState({ password: '', confirm: '' })
+  const [error, setError] = useState('')
+  const set = (k) => (e) => setForm(prev => ({ ...prev, [k]: e.target.value }))
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    if (!form.password) { setError('Ingresa tu contraseña actual'); return }
+    if (form.password !== form.confirm) { setError('Las contraseñas no coinciden'); return }
+    if (form.password !== 'cliente') { setError('Contraseña incorrecta'); return }
+    setError('')
+    onConfirm()
+  }
+
+  return (
+    <form className={styles.form} onSubmit={handleSubmit}>
+      <p className={styles.confirmHint}>Ingresa tu contraseña actual dos veces para verificar tu identidad.</p>
+      <PasswordField label="Contraseña actual" value={form.password} onChange={set('password')} autoComplete="current-password" />
+      <PasswordField label="Confirmar contraseña actual" value={form.confirm} onChange={set('confirm')} autoComplete="current-password" />
+      {error && <p className={styles.errorMsg}>{error}</p>}
+      <button className={styles.submitBtn} type="submit">Continuar</button>
     </form>
   )
 }
@@ -213,9 +249,11 @@ function RegisterForm() {
 
 export default function AuthModal({ isOpen, initialMode = 'login', onClose, onLogin }) {
   const [mode, setMode] = useState(initialMode)
+  const [changeStep, setChangeStep] = useState('confirm')
 
   useEffect(() => {
     setMode(initialMode)
+    setChangeStep('confirm')
   }, [initialMode, isOpen])
 
   const handleKey = useCallback((e) => {
@@ -230,32 +268,47 @@ export default function AuthModal({ isOpen, initialMode = 'login', onClose, onLo
 
   if (!isOpen) return null
 
+  const isChangeCreds = mode === 'change-creds'
+
   return (
     <div className={styles.backdrop} onClick={onClose}>
       <div className={styles.modal} onClick={e => e.stopPropagation()}>
 
         <div className={styles.modalHeader}>
-          <div className={styles.tabs}>
-            <button
-              className={`${styles.tab} ${mode === 'login' ? styles.tabActive : ''}`}
-              onClick={() => setMode('login')}
-            >
-              Iniciar sesión
-            </button>
-            <button
-              className={`${styles.tab} ${mode === 'register' ? styles.tabActive : ''}`}
-              onClick={() => setMode('register')}
-            >
-              Registrarse
-            </button>
-          </div>
+          {isChangeCreds ? (
+            <h3 className={styles.modalTitle}>
+              {changeStep === 'confirm' ? 'Verificar identidad' : 'Editar perfil'}
+            </h3>
+          ) : (
+            <div className={styles.tabs}>
+              <button
+                className={`${styles.tab} ${mode === 'login' ? styles.tabActive : ''}`}
+                onClick={() => setMode('login')}
+              >
+                Iniciar sesión
+              </button>
+              <button
+                className={`${styles.tab} ${mode === 'register' ? styles.tabActive : ''}`}
+                onClick={() => setMode('register')}
+              >
+                Registrarse
+              </button>
+            </div>
+          )}
           <button className={styles.closeBtn} onClick={onClose} aria-label="Cerrar">
             <CloseIcon />
           </button>
         </div>
 
         <div className={styles.body}>
-          {mode === 'login' ? <LoginForm onLogin={onLogin} /> : <RegisterForm />}
+          {mode === 'login'    && <LoginForm onLogin={onLogin} />}
+          {mode === 'register' && <RegisterForm />}
+          {mode === 'change-creds' && changeStep === 'confirm' && (
+            <ConfirmCredsForm onConfirm={() => setChangeStep('edit')} />
+          )}
+          {mode === 'change-creds' && changeStep === 'edit' && (
+            <RegisterForm prefilled={CLIENT_DATA} onSuccess={onClose} />
+          )}
         </div>
 
       </div>

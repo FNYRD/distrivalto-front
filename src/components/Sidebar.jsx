@@ -1,7 +1,25 @@
+import { useState, useEffect, useRef } from 'react'
 import styles from './Sidebar.module.css'
 import logo from '../../logo.png'
 
-export default function Sidebar({ isOpen, chats, activeChatId, onNewChat, onSelectChat }) {
+export default function Sidebar({ isOpen, chats, activeChatId, onNewChat, onSelectChat, user, onChangeCreds, onLogout }) {
+  const [menuOpen, setMenuOpen] = useState(false)
+  const menuRef = useRef(null)
+
+  const name    = user?.name ?? 'Desconocido'
+  const initial = name[0].toUpperCase()
+
+  useEffect(() => {
+    if (!menuOpen) return
+    function handleClick(e) {
+      if (menuRef.current && !menuRef.current.contains(e.target)) {
+        setMenuOpen(false)
+      }
+    }
+    document.addEventListener('mousedown', handleClick)
+    return () => document.removeEventListener('mousedown', handleClick)
+  }, [menuOpen])
+
   return (
     <aside className={`${styles.sidebar} ${isOpen ? '' : styles.closed}`}>
       <div className={styles.header}>
@@ -34,10 +52,29 @@ export default function Sidebar({ isOpen, chats, activeChatId, onNewChat, onSele
         )}
       </div>
 
-      <div className={styles.footer}>
-        <div className={styles.userSection}>
-          <div className={styles.userAvatar}>D</div>
-          <span className={styles.userName}>Desconocido</span>
+      <div className={styles.footer} ref={menuRef}>
+        {menuOpen && user?.isClient && (
+          <div className={styles.userMenu}>
+            <button
+              className={styles.userMenuItem}
+              onClick={() => { setMenuOpen(false); onChangeCreds() }}
+            >
+              Cambiar credenciales
+            </button>
+            <button
+              className={styles.userMenuItem}
+              onClick={() => { setMenuOpen(false); onLogout() }}
+            >
+              Cerrar sesión
+            </button>
+          </div>
+        )}
+        <div
+          className={`${styles.userSection} ${user?.isClient ? styles.userSectionClickable : ''}`}
+          onClick={() => { if (user?.isClient) setMenuOpen(p => !p) }}
+        >
+          <div className={styles.userAvatar}>{initial}</div>
+          <span className={styles.userName}>{name}</span>
         </div>
       </div>
     </aside>
