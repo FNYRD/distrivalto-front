@@ -36,8 +36,7 @@ export default function ChatInput({ onSend, placeholder = '¿En qué podemos ayu
       <div className={styles.inputRow}>
         <textarea
           ref={textareaRef}
-          className={styles.textarea}
-          style={centered ? { textAlign: 'center' } : undefined}
+          className={`${styles.textarea}${centered ? ` ${styles.textareaCentered}` : ''}`}
           value={value}
           onChange={handleChange}
           onKeyDown={handleKeyDown}
