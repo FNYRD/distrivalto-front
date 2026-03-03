@@ -82,6 +82,7 @@ export default function Settings() {
   const [apiKey, setApiKey]       = useState('sk-ant-api03-placeholder')
   const [apiStatus, setApiStatus] = useState('idle') // 'ok' | 'error' | 'idle'
   const [testingApi, setTestingApi] = useState(false)
+  const [link, setLink]           = useState('')
 
   const [admins, setAdmins]           = useState(INITIAL_ADMINS)
   const [newAdmin, setNewAdmin]       = useState({ username: '', password: '', confirm: '' })
@@ -190,7 +191,7 @@ export default function Settings() {
               <div className={styles.apiRow}>
                 <div className={styles.apiKeyField}>
                   <PasswordField
-                    label="Clave de API"
+                    label="API key"
                     value={apiKey}
                     onChange={e => { setApiKey(e.target.value); setApiStatus('idle') }}
                     autoComplete="off"
@@ -206,6 +207,17 @@ export default function Settings() {
                     {apiStatus === 'ok' ? 'Conectado' : apiStatus === 'error' ? 'Sin conexión' : 'Sin verificar'}
                   </span>
                 </div>
+              </div>
+              <div className={styles.field}>
+                <label className={styles.label}>Link</label>
+                <input
+                  className={styles.input}
+                  type="url"
+                  placeholder="https://..."
+                  value={link}
+                  onChange={e => setLink(e.target.value)}
+                  autoComplete="off"
+                />
               </div>
               <div className={styles.btnRow}>
                 <button className={styles.saveBtn} type="button">Guardar</button>
