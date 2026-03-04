@@ -1,4 +1,5 @@
-import { useState, useCallback } from 'react'
+import { useState, useEffect, useCallback } from 'react'
+import { api } from './api'
 import styles from './App.module.css'
 import Sidebar from './components/Sidebar'
 import ChatView from './components/ChatView'
@@ -54,6 +55,14 @@ export default function App() {
   const [authOpen, setAuthOpen] = useState(false)
   const [authMode, setAuthMode] = useState('login')
   const [user, setUser] = useState(null)
+  useEffect(() => {
+    api.getSession()
+      .then(data => {
+        setUser(data.user)
+        setChats(data.chats)
+      })
+      .catch(() => { })
+  }, [])
 
   const activeChat = chats.find(c => c.id === activeChatId) ?? null
 
